@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.entity.TruckEntity;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -16,257 +19,299 @@ import javax.validation.constraints.*;
  * Truck
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-11T19:53:18.487Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-12T01:04:43.045Z[GMT]")
 public class Truck   {
-  @JsonProperty("id")
-  private Long id = null;
+	@JsonProperty("id")
+	private Long id = null;
 
-  @JsonProperty("name")
-  private String name = null;
+	@JsonProperty("name")
+	private String name = null;
 
-  @JsonProperty("engineHP")
-  private String engineHP = null;
+	@JsonProperty("engineHP")
+	private Integer engineHP = null;
 
-  @JsonProperty("engineVolume")
-  private String engineVolume = null;
+	@JsonProperty("engineVolume")
+	private Integer engineVolume = null;
 
-  @JsonProperty("fuel")
-  private String fuel = null;
+	@JsonProperty("fuel")
+	private String fuel = null;
 
-  /**
-   * truck segment
-   */
-  public enum SegmentEnum {
-    LONG_HAUL("Long Haul"),
-    
-    CONSTRUCTION("Construction"),
-    
-    FIREDEPARTMENT("Firedepartment"),
-    
-    DISTRIBUTION_FOOD_("Distribution (Food)"),
-    
-    WASTEDISPOSAL("Wastedisposal");
+	/**
+	 * truck segment
+	 */
+	public enum SegmentsEnum {
+		LONG_HAUL("Long Haul"),
 
-    private String value;
+		CONSTRUCTION("Construction"),
 
-    SegmentEnum(String value) {
-      this.value = value;
-    }
+		FIREDEPARTMENT("Firedepartment"),
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		DISTRIBUTION_FOOD_("Distribution (Food)"),
 
-    @JsonCreator
-    public static SegmentEnum fromValue(String text) {
-      for (SegmentEnum b : SegmentEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-  @JsonProperty("segment")
-  private SegmentEnum segment = null;
+		WASTEDISPOSAL("Wastedisposal");
 
-  @JsonProperty("colors")
-  @Valid
-  private List<String> colors = new ArrayList<String>();
+		private String value;
 
-  public Truck id(Long id) {
-    this.id = id;
-    return this;
-  }
+		SegmentsEnum(String value) {
+			this.value = value;
+		}
 
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  
-    public Long getId() {
-    return id;
-  }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+		@JsonCreator
+		public static SegmentsEnum fromValue(String text) {
+			for (SegmentsEnum b : SegmentsEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
+	@JsonProperty("segments")
+	@Valid
+  	private List<SegmentsEnum> segments = null;
 
-  public Truck name(String name) {
-    this.name = name;
-    return this;
-  }
+	@JsonProperty("colors")
+	@Valid
+	private List<String> colors = new ArrayList<String>();
 
-  /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(example = "TGX 18.44", required = true, value = "")
-      @NotNull
+	public Truck() {
+	}
+	
+	
+	public Truck(TruckEntity truck) {
+		setId(truck.getId());
+		setName(truck.getName());
+		setEngineHP(truck.getEngineHP());
+		setEngineVolume(truck.getEngineVolume());
+		setFuel(truck.getFuel());
+		if(truck.getSegments() != null && !truck.getSegments().isEmpty()) {
+			List<String> entitySegments = Arrays.asList(truck.getSegments().split(","));
+			for (String segment : entitySegments) {
+				addSegmentsItem(SegmentsEnum.fromValue(segment));
+			}
+		}
+		if(truck.getColors() != null && !truck.getColors().isEmpty()) {
+			List<String> colors = new ArrayList<String>();
+			setColors(Arrays.asList(truck.getColors().split(",")));
+		}
+	}
 
-    public String getName() {
-    return name;
-  }
+	public Truck(Long id, String name, Integer engineHP, Integer engineVolume, String fuel, List<String> segments, List<String> colors) {
+		setId(id);
+		setName(name);
+		setEngineHP(engineHP);
+		setEngineVolume(engineVolume);
+		setFuel(fuel);
+		for (String segment : segments) {
+			addSegmentsItem(SegmentsEnum.fromValue(segment));
+		}
+		setColors(colors);
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public Truck id(Long id) {
+		this.id = id;
+		return this;
+	}
 
-  public Truck engineHP(String engineHP) {
-    this.engineHP = engineHP;
-    return this;
-  }
+	/**
+	 * Get id
+	 * @return id
+	 **/
+	@ApiModelProperty(value = "")
 
-  /**
-   * Get engineHP
-   * @return engineHP
-  **/
-  @ApiModelProperty(example = "440 HP", required = true, value = "")
-      @NotNull
+	public Long getId() {
+		return id;
+	}
 
-    public String getEngineHP() {
-    return engineHP;
-  }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-  public void setEngineHP(String engineHP) {
-    this.engineHP = engineHP;
-  }
+	public Truck name(String name) {
+		this.name = name;
+		return this;
+	}
 
-  public Truck engineVolume(String engineVolume) {
-    this.engineVolume = engineVolume;
-    return this;
-  }
+	/**
+	 * Get name
+	 * @return name
+	 **/
+	@ApiModelProperty(example = "TGX 18.44", required = true, value = "")
+	@NotNull
 
-  /**
-   * Get engineVolume
-   * @return engineVolume
-  **/
-  @ApiModelProperty(example = "10.518", required = true, value = "")
-      @NotNull
+	public String getName() {
+		return name;
+	}
 
-    public String getEngineVolume() {
-    return engineVolume;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public void setEngineVolume(String engineVolume) {
-    this.engineVolume = engineVolume;
-  }
+	public Truck engineHP(Integer engineHP) {
+		this.engineHP = engineHP;
+		return this;
+	}
 
-  public Truck fuel(String fuel) {
-    this.fuel = fuel;
-    return this;
-  }
+	/**
+	 * Get engineHP
+	 * @return engineHP
+	 **/
+	@ApiModelProperty(example = "440", required = true, value = "")
+	@NotNull
 
-  /**
-   * Get fuel
-   * @return fuel
-  **/
-  @ApiModelProperty(example = "diesel", value = "")
-  
-    public String getFuel() {
-    return fuel;
-  }
+	public Integer getEngineHP() {
+		return engineHP;
+	}
 
-  public void setFuel(String fuel) {
-    this.fuel = fuel;
-  }
+	public void setEngineHP(Integer engineHP) {
+		this.engineHP = engineHP;
+	}
 
-  public Truck segment(SegmentEnum segment) {
-    this.segment = segment;
-    return this;
-  }
+	public Truck engineVolume(Integer engineVolume) {
+		this.engineVolume = engineVolume;
+		return this;
+	}
 
-  /**
-   * truck segment
-   * @return segment
-  **/
-  @ApiModelProperty(required = true, value = "truck segment")
-      @NotNull
+	/**
+	 * Get engineVolume
+	 * @return engineVolume
+	 **/
+	@ApiModelProperty(example = "10518", required = true, value = "")
+	@NotNull
 
-    public SegmentEnum getSegment() {
-    return segment;
-  }
+	public Integer getEngineVolume() {
+		return engineVolume;
+	}
 
-  public void setSegment(SegmentEnum segment) {
-    this.segment = segment;
-  }
+	public void setEngineVolume(Integer engineVolume) {
+		this.engineVolume = engineVolume;
+	}
 
-  public Truck colors(List<String> colors) {
-    this.colors = colors;
-    return this;
-  }
+	public Truck fuel(String fuel) {
+		this.fuel = fuel;
+		return this;
+	}
 
-  public Truck addColorsItem(String colorsItem) {
-    this.colors.add(colorsItem);
-    return this;
-  }
+	/**
+	 * Get fuel
+	 * @return fuel
+	 **/
+	@ApiModelProperty(example = "diesel", value = "")
 
-  /**
-   * Get colors
-   * @return colors
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	public String getFuel() {
+		return fuel;
+	}
 
-    public List<String> getColors() {
-    return colors;
-  }
+	public void setFuel(String fuel) {
+		this.fuel = fuel;
+	}
 
-  public void setColors(List<String> colors) {
-    this.colors = colors;
-  }
+	public Truck segments(List<SegmentsEnum> segments) {
+	    this.segments = segments;
+	    return this;
+	}
+
+	public Truck addSegmentsItem(SegmentsEnum segmentsItem) {
+	    if (this.segments == null) {
+	      this.segments = new ArrayList<SegmentsEnum>();
+	    }
+	    this.segments.add(segmentsItem);
+	    return this;
+	}
+
+	/**
+	 * Get segments
+	 * @return segments
+	 **/
+	@ApiModelProperty(example = "[\"Construction\",\"Firedepartment\"]", value = "")
+	
+	public List<SegmentsEnum> getSegments() {
+		return segments;
+	}
+
+	public void setSegments(List<SegmentsEnum> segments) {
+		this.segments = segments;
+	}
+
+	public Truck colors(List<String> colors) {
+		this.colors = colors;
+		return this;
+	}
+
+	public Truck addColorsItem(String colorsItem) {
+		this.colors.add(colorsItem);
+		return this;
+	}
+
+	/**
+	 * Get colors
+	 * @return colors
+	 **/
+	@ApiModelProperty(required = true, value = "")
+	@NotNull
+
+	public List<String> getColors() {
+		return colors;
+	}
+
+	public void setColors(List<String> colors) {
+		this.colors = colors;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Truck truck = (Truck) o;
-    return Objects.equals(this.id, truck.id) &&
-        Objects.equals(this.name, truck.name) &&
-        Objects.equals(this.engineHP, truck.engineHP) &&
-        Objects.equals(this.engineVolume, truck.engineVolume) &&
-        Objects.equals(this.fuel, truck.fuel) &&
-        Objects.equals(this.segment, truck.segment) &&
-        Objects.equals(this.colors, truck.colors);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Truck truck = (Truck) o;
+		return Objects.equals(this.id, truck.id) &&
+				Objects.equals(this.name, truck.name) &&
+				Objects.equals(this.engineHP, truck.engineHP) &&
+				Objects.equals(this.engineVolume, truck.engineVolume) &&
+				Objects.equals(this.fuel, truck.fuel) &&
+				Objects.equals(this.segments, truck.segments) &&
+				Objects.equals(this.colors, truck.colors);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, engineHP, engineVolume, fuel, segment, colors);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, engineHP, engineVolume, fuel, segments, colors);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Truck {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    engineHP: ").append(toIndentedString(engineHP)).append("\n");
-    sb.append("    engineVolume: ").append(toIndentedString(engineVolume)).append("\n");
-    sb.append("    fuel: ").append(toIndentedString(fuel)).append("\n");
-    sb.append("    segment: ").append(toIndentedString(segment)).append("\n");
-    sb.append("    colors: ").append(toIndentedString(colors)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class Truck {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    name: ").append(toIndentedString(name)).append("\n");
+		sb.append("    engineHP: ").append(toIndentedString(engineHP)).append("\n");
+		sb.append("    engineVolume: ").append(toIndentedString(engineVolume)).append("\n");
+		sb.append("    fuel: ").append(toIndentedString(fuel)).append("\n");
+		sb.append("    segment: ").append(toIndentedString(segments)).append("\n");
+		sb.append("    colors: ").append(toIndentedString(colors)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

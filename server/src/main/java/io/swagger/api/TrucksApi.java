@@ -23,12 +23,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-11T19:53:18.487Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-12T01:04:43.045Z[GMT]")
 @Api(value = "trucks", description = "the trucks API")
 public interface TrucksApi {
 
     @ApiOperation(value = "Adds a new truck", nickname = "addTruck", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "Truck added successfully"),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/trucks",
         consumes = { "application/json", "application/xml" },
@@ -59,39 +60,42 @@ public interface TrucksApi {
 );
 
 
-    @ApiOperation(value = "List all trucks", nickname = "listTruck", notes = "", response = Object.class, responseContainer = "List", tags={ "truck", })
+    @ApiOperation(value = "List all trucks", nickname = "listTruck", notes = "", response = Truck.class, responseContainer = "List", tags={ "truck", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Object.class, responseContainer = "List") })
+        @ApiResponse(code = 200, message = "successful operation", response = Truck.class, responseContainer = "List") })
     @RequestMapping(value = "/trucks",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Object>> listTruck();
+    ResponseEntity<List<Truck>> listTruck();
 
 
     @ApiOperation(value = "Update an existing truck", nickname = "updateTruck", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Truck updated successfully"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Truck not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
     @RequestMapping(value = "/trucks",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be added to the store" ,required=true )  @Valid @RequestBody Truck body
+    ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be updated" ,required=true )  @Valid @RequestBody Truck body
 );
 
 
-    @ApiOperation(value = "Updates a truck in the store with form data", nickname = "updateTruckWithForm", notes = "", tags={ "truck", })
+    @ApiOperation(value = "Updates a truck with form data", nickname = "updateTruckWithForm", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Truck updated successfully"),
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/trucks/{truckId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     ResponseEntity<Void> updateTruckWithForm(@ApiParam(value = "", required=true) @RequestParam(value="id", required=true)  Long id
 ,@ApiParam(value = "", required=true) @RequestParam(value="name", required=true)  String name
-,@ApiParam(value = "", required=true) @RequestParam(value="engineHP", required=true)  String engineHP
-,@ApiParam(value = "", required=true) @RequestParam(value="engineVolume", required=true)  String engineVolume
+,@ApiParam(value = "", required=true) @RequestParam(value="engineHP", required=true)  Integer engineHP
+,@ApiParam(value = "", required=true) @RequestParam(value="engineVolume", required=true)  Integer engineVolume
 ,@ApiParam(value = "", required=true) @RequestParam(value="fuel", required=true)  String fuel
-,@ApiParam(value = "", required=true, allowableValues="Long Haul, Construction, Firedepartment, Distribution (Food), Wastedisposal") @RequestParam(value="segment", required=true)  String segment
+,@ApiParam(value = "", required=true, allowableValues="Long Haul, Construction, Firedepartment, Distribution (Food), Wastedisposal") @RequestParam(value="segments", required=true)  List<String> segments
 ,@ApiParam(value = "", required=true) @RequestParam(value="colors", required=true)  List<String> colors
 ,@ApiParam(value = "ID of truck that needs to be updated",required=true) @PathVariable("truckId") Long truckId
 );
