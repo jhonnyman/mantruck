@@ -1,267 +1,247 @@
-swagger: "2.0"
+openapi: 3.0.1
 info:
-  description: "This is a sample server Truckstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
-  version: "1.0.0"
-  title: "MAN Trucks"
-  termsOfService: "http://swagger.io/terms/"
+  title: MAN Trucks
+  description: 'Esta é a definição da API para o code challenge'
+  termsOfService: http://swagger.io/terms/
   contact:
-    email: "apiteam@swagger.io"
+    email: apiteam@swagger.io
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost"
-basePath: "/v1"
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://localhost/v1
+- url: http://localhost/v1
 tags:
-- name: "truck"
-  description: "Powering you Business on the road"
+- name: truck
+  description: Powering you Business on the road
   externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to MAN Truck orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
-- "http"
+    description: Find out more
+    url: http://swagger.io
 paths:
   /trucks:
     get:
       tags:
-      - "truck"
-      summary: "List all trucks"
-      description: ""
-      operationId: "listTruck"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters: []
+      - truck
+      summary: List all trucks
+      operationId: listTruck
       responses:
         200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              type: "object"
-            # additionalProperties:
-            #   type: "object"
-            #   format: "int32"
-    post:
-      tags:
-      - "truck"
-      summary: "Adds a new truck"
-      description: ""
-      operationId: "addTruck"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Truck object"
-        required: true
-        schema:
-          $ref: "#/definitions/Truck"
-      responses:
-        405:
-          description: "Invalid input"
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Truck'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Truck'
     put:
       tags:
-      - "truck"
-      summary: "Update an existing truck"
-      description: ""
-      operationId: "updateTruck"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Truck object that needs to be added to the store"
+      - truck
+      summary: Update an existing truck
+      operationId: updateTruck
+      requestBody:
+        description: Truck object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Truck'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Truck'
         required: true
-        schema:
-          $ref: "#/definitions/Truck"
       responses:
+        200:
+          description: Truck updated successfully
+          content: {}
         400:
-          description: "Invalid ID supplied"
+          description: Invalid ID supplied
+          content: {}
         404:
-          description: "Truck not found"
+          description: Truck not found
+          content: {}
         405:
-          description: "Validation exception"
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - truck
+      summary: Adds a new truck
+      operationId: addTruck
+      requestBody:
+        description: Truck object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Truck'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Truck'
+        required: true
+      responses:
+        201:
+          description: Truck added successfully
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
   /trucks/{truckId}:
     get:
       tags:
-      - "truck"
-      summary: "Find truck by ID"
-      description: "Returns a single truck"
-      operationId: "getTruckById"
-      produces:
-      - "application/xml"
-      - "application/json"
+      - truck
+      summary: Find truck by ID
+      description: Returns a single truck
+      operationId: getTruckById
       parameters:
-      - name: "truckId"
-        in: "path"
-        description: "ID of truck to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Truck"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Truck not found"
-    post:
-      tags:
-      - "truck"
-      summary: "Updates a truck in the store with form data"
-      description: ""
-      operationId: "updateTruckWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "truckId"
-        in: "path"
-        description: "ID of truck that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      # - name: "name"
-      #   in: "formData"
-      #   description: "Updated name of the truck"
-      #   required: false
-      #   type: "string"
-      # - name: "status"
-      #   in: "formData"
-      #   description: "Updated status of the truck"
-      #   required: false
-      #   type: "string"
-      - in: "body"
-        name: "body"
-        description: "Truck object that needs to be added to the store"
+      - name: truckId
+        in: path
+        description: ID of truck to return
         required: true
         schema:
-          $ref: "#/definitions/Truck"
+          type: integer
+          format: int64
       responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Truck'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Truck'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Truck not found
+          content: {}
+    post:
+      tags:
+      - truck
+      summary: Updates a truck with form data
+      operationId: updateTruckWithForm
+      parameters:
+      - name: truckId
+        in: path
+        description: ID of truck that needs to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Truck object that needs to be updated
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Truck'
+        required: true
+      responses:
+        200:
+          description: Truck updated successfully
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
         405:
-          description: "Invalid input"
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
     delete:
       tags:
-      - "truck"
-      summary: "Deletes a truck"
-      description: ""
-      operationId: "deleteTruck"
-      produces:
-      - "application/xml"
-      - "application/json"
+      - truck
+      summary: Deletes a truck
+      operationId: deleteTruck
       parameters:
-      - name: "truckId"
-        in: "path"
-        description: "Truck id to delete"
+      - name: truckId
+        in: path
+        description: Truck id to delete
         required: true
-        type: "integer"
-        format: "int64"
+        schema:
+          type: integer
+          format: int64
       responses:
+        200:
+          description: Truck deleted successfully
+          content: {}
         400:
-          description: "Invalid ID supplied"
+          description: Invalid ID supplied
+          content: {}
         404:
-          description: "Truck not found"
-definitions:
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
-  Truck:
-    type: "object"
-    required:
-    - "name"
-    - "colors"
-    - "engineHP"
-    - "engineVolume"
-    - "segment"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-        example: "TGX 18.44"
-      engineHP:
-        type: "string"
-        example: "440 HP"
-      engineVolume:
-        type: "string"
-        example: "10.518"
-      fuel:
-        type: "string"
-        example: "diesel"
-      segment:
-        type: "string"
-        description: "truck segment"
-        enum:
-        - "Long Haul"
-        - "Construction"
-        - "Firedepartment"
-        - "Distribution (Food)"
-        - "Wastedisposal"
-      colors:
-        type: "array"
-        xml:
-          name: "color"
-          wrapped: true
-        items:
-          type: "string"
-          example: "red"
-    xml:
-      name: "Truck"
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+          description: Truck not found
+          content: {}
+components:
+  schemas:
+    Truck:
+      required:
+      - colors
+      - engineHP
+      - engineVolume
+      - name
+      - segment
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: TGX 18.44
+        engineHP:
+          type: integer
+          example: 440
+        engineVolume:
+          type: integer
+          example: 10518
+        fuel:
+          type: string
+          example: diesel
+        segments:
+          type: array
+          xml:
+            name: segment
+            wrapped: true
+          items:
+            type: string
+            description: truck segment
+            enum:
+            - Long Haul
+            - Construction
+            - Firedepartment
+            - Distribution (Food)
+            - Wastedisposal
+          example:
+          - Construction
+          - Firedepartment
+        colors:
+          type: array
+          xml:
+            name: color
+            wrapped: true
+          items:
+            type: string
+          example:
+          - red
+          - white
+          - blue
+      xml:
+        name: Truck
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
