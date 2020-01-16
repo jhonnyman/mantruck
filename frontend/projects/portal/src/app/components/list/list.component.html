@@ -1,0 +1,37 @@
+<section class="container">
+    <header>
+      <h1>DRIVING YOUR BUSINESS TO SUCCESS</h1>
+      <br/>
+      <h3>TAKE OUR MODELS DOWN THE ROAD</h3>
+    </header>
+    <div class="list">
+        <div class="items">
+            <article *ngFor="let item of datasource;">
+                <mat-card>
+                    <img mat-card-image src="../../assets/truck.jpeg">
+                    <mat-card-title>{{item.name}}</mat-card-title>
+                    <mat-card-content>
+                        <mat-list>
+                            <mat-list-item>Engine: {{item.engineHP}} HP | {{item.engineVolume}} cm3</mat-list-item>
+                            <mat-list-item>Fuel: {{item.fuel}}</mat-list-item>
+                            <mat-list-item>Segments: {{item.segments}}</mat-list-item>
+                            <mat-list-item >Available Colors</mat-list-item>
+                            <mat-list-item>
+                                <span *ngFor="let color of item.colors" style="padding-right: 2em;">
+                                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                      <circle cx="40" cy="40" r="35" [id]="color"/>
+                                    </svg>
+                                </span>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button (click)="updateTruck(item.id)">Edit Truck</button>
+                    </mat-card-actions>
+                </mat-card>
+            </article>
+        </div>
+    </div>
+  </section>
+  <button class="new-truck primary" (click)="createTruck()">New Truck</button>
+  

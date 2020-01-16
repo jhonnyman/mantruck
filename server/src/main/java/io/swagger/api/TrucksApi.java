@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -27,6 +28,7 @@ import java.util.Map;
 @Api(value = "trucks", description = "the trucks API")
 public interface TrucksApi {
 
+	@CrossOrigin(origins = "*")
     @ApiOperation(value = "Adds a new truck", nickname = "addTruck", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Truck added successfully"),
@@ -37,7 +39,7 @@ public interface TrucksApi {
     ResponseEntity<Void> addTruck(@ApiParam(value = "Truck object" ,required=true )  @Valid @RequestBody Truck body
 );
 
-
+    @CrossOrigin(origins = "*")
     @ApiOperation(value = "Deletes a truck", nickname = "deleteTruck", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -47,7 +49,7 @@ public interface TrucksApi {
     ResponseEntity<Void> deleteTruck(@ApiParam(value = "Truck id to delete",required=true) @PathVariable("truckId") Long truckId
 );
 
-
+    @CrossOrigin(origins = "*")
     @ApiOperation(value = "Find truck by ID", nickname = "getTruckById", notes = "Returns a single truck", response = Truck.class, tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Truck.class),
@@ -59,7 +61,7 @@ public interface TrucksApi {
     ResponseEntity<Truck> getTruckById(@ApiParam(value = "ID of truck to return",required=true) @PathVariable("truckId") Long truckId
 );
 
-
+    @CrossOrigin(origins = "*")
     @ApiOperation(value = "List all trucks", nickname = "listTruck", notes = "", response = Truck.class, responseContainer = "List", tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Truck.class, responseContainer = "List") })
@@ -69,6 +71,7 @@ public interface TrucksApi {
     ResponseEntity<List<Truck>> listTruck();
 
 
+    @CrossOrigin(origins = "*")
     @ApiOperation(value = "Update an existing truck", nickname = "updateTruck", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Truck updated successfully"),
@@ -81,7 +84,7 @@ public interface TrucksApi {
     ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be updated" ,required=true )  @Valid @RequestBody Truck body
 );
 
-
+    @CrossOrigin(origins = "*")
     @ApiOperation(value = "Updates a truck with form data", nickname = "updateTruckWithForm", notes = "", tags={ "truck", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Truck updated successfully"),

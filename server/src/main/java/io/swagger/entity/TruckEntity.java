@@ -51,7 +51,6 @@ public class TruckEntity {
 	}
 	
 	public TruckEntity(Truck truck) {
-		System.out.println(truck.getColors().toString());
 		setId(truck.getId());
 		setName(truck.getName());
 		setEngineHP(truck.getEngineHP());

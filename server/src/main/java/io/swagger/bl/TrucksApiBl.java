@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import io.swagger.api.NotFoundException;
 import io.swagger.entity.TruckEntity;
 import io.swagger.model.Truck;
 import io.swagger.repository.TrucksApiRepository;
-import javassist.NotFoundException;
 
 @Component
 public class TrucksApiBl {
@@ -19,23 +19,28 @@ public class TrucksApiBl {
 	
 	public List<Truck> listTrucks() throws NotFoundException{
 		List<Truck> trucks = new ArrayList<>();
-		for(TruckEntity tuckEntity : truckRepository.findAll()) {
+		Iterable<TruckEntity> result = truckRepository.findAll();
+//		if(result == null) {
+//			throw new NotFoundException(404, "No trucks available.");
+//		}
+		for(TruckEntity tuckEntity : result) {
 			trucks.add(new Truck(tuckEntity));
 		}
 		if(trucks.isEmpty()) {
-			throw new NotFoundException("No trucks available.");
+			throw new NotFoundException(404,"No trucks available.");
 		}
 		return trucks;
 	}
 
-	public void addTruck(Truck truck) {
-		truckRepository.save(new TruckEntity(truck));
+	public Long addTruck(Truck truck) {
+		TruckEntity result = truckRepository.save(new TruckEntity(truck));
+		return result.getId();
 	}
 	
 	public Truck getTruck(Long truckId) throws NotFoundException {
 		TruckEntity truckEntity = truckRepository.findOne(truckId);
 		if(truckEntity == null)
-			throw new NotFoundException("The truckId " + truckId + " does not exist.");
+			throw new NotFoundException(404, "The truckId " + truckId + " does not exist.");
 		return new Truck(truckEntity);
 	}
 	
@@ -56,7 +61,7 @@ public class TrucksApiBl {
 	
 	public void validateTruckExists(Long truckId) throws NotFoundException {
 		if(truckRepository.findOne(truckId) == null) {
-			throw new NotFoundException("The truckId " + truckId + " does not exist.");
+			throw new NotFoundException(404, "The truckId " + truckId + " does not exist.");
 		}
 	}
 }
