@@ -56,14 +56,6 @@ public class TrucksApiController implements TrucksApi {
 
     public ResponseEntity<Truck> getTruckById(@ApiParam(value = "ID of truck to return",required=true) @PathVariable("truckId") Long truckId) {
         String accept = request.getHeader("Accept");
-//        if (accept != null && accept.contains("application/json")) {
-//            try {
-//                return new ResponseEntity<Truck>(objectMapper.readValue("{\n  \"engineVolume\" : 10518,\n  \"fuel\" : \"diesel\",\n  \"segment\" : \"Long Haul\",\n  \"name\" : \"TGX 18.44\",\n  \"engineHP\" : 440,\n  \"id\" : 0,\n  \"colors\" : [ \"red\", \"red\" ]\n}", Truck.class), HttpStatus.NOT_IMPLEMENTED);
-//            } catch (IOException e) {
-//                log.error("Couldn't serialize response for content type application/json", e);
-//                return new ResponseEntity<Truck>(HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//        }
         try {
 			Truck truck = truckBl.getTruck(truckId);
 			return new ResponseEntity<Truck>(truck, HttpStatus.OK);
@@ -74,14 +66,6 @@ public class TrucksApiController implements TrucksApi {
 
     public ResponseEntity<List<Truck>> listTruck() {
         String accept = request.getHeader("Accept");
-//        if (accept != null && accept.contains("application/json")) {
-//            try {
-//                return new ResponseEntity<List<Truck>>(objectMapper.readValue("[ {\n  \"engineVolume\" : 10518,\n  \"fuel\" : \"diesel\",\n  \"segment\" : \"Long Haul\",\n  \"name\" : \"TGX 18.44\",\n  \"engineHP\" : 440,\n  \"id\" : 0,\n  \"colors\" : [ \"red\", \"red\" ]\n}, {\n  \"engineVolume\" : 10518,\n  \"fuel\" : \"diesel\",\n  \"segment\" : \"Long Haul\",\n  \"name\" : \"TGX 18.44\",\n  \"engineHP\" : 440,\n  \"id\" : 0,\n  \"colors\" : [ \"red\", \"red\" ]\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-//            } catch (IOException e) {
-//                log.error("Couldn't serialize response for content type application/json", e);
-//                return new ResponseEntity<List<Truck>>(HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//        }
         List<Truck> trucks;
 		try {
 			trucks = truckBl.listTrucks();
@@ -92,10 +76,11 @@ public class TrucksApiController implements TrucksApi {
 
     }
 
-    public ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be updated" ,required=true )  @Valid @RequestBody Truck body) {
+    public ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be updated" ,required=true )  @Valid @RequestBody Truck body
+    		,@ApiParam(value = "ID of truck to return",required=true) @PathVariable("truckId") Long truckId) {
         String accept = request.getHeader("Accept");
         try {
-			truckBl.updateTruck(body);
+			truckBl.updateTruck(truckId, body);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

@@ -11,7 +11,7 @@ import { Truck, TruckService } from 'truckapiclient';
 })
 export class UpdateComponent implements OnInit {
 
-  id: String;
+  id: number;
   truck: any = {};
   updateForm: FormGroup;
   colorsArray: String[] = ['red','blue','white'];
@@ -57,7 +57,7 @@ export class UpdateComponent implements OnInit {
 
   updateTruck(name, engineHP, engineVolume, fuel, segments, colors){
     const updatedTruck = {
-      id: parseInt(this.id.toString()),
+      id: this.id,
       name,
       engineHP,
       engineVolume,
@@ -65,7 +65,7 @@ export class UpdateComponent implements OnInit {
       segments,
       colors
     }
-    this.truckService.updateTruck(updatedTruck).subscribe(() => {
+    this.truckService.updateTruck(updatedTruck, this.id).subscribe(() => {
       this.snackBar.open('Truck updated successfully', 'OK', {
         duration: 3000
       });

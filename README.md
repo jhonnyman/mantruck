@@ -22,10 +22,10 @@ The API implementation was based on the Open API 3 standard and can be found in 
 * For this exercise I considered just the following endpoints and methods for simplicity
  /trucks (GET, """"""PUT and POST)
     GET - fetches all trucks
-    PUT - updates a given truck passing the object on the request body
     POST - creates a truck passing the object on the request body
  /trucks/{id} (GET, POST, DELETE)
     GET - fetches one truck
+    PUT - updates a given truck passing the object on the request body
     POST - updates a truck passing form params
     DELETE - deletes one truck
 

@@ -44,6 +44,7 @@ public class TrucksApiBl {
 	
 	public void updateTruck(Long truckId, Truck truck) throws NotFoundException {
 		validateTruckExists(truckId);
+		truck.setId(truckId);
 		truckRepository.save(new TruckEntity(truck));
 	}
 	

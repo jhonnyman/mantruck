@@ -221,20 +221,25 @@ export class TruckService {
         );
     }
 
-    /**
+     /**
      * Update an existing truck
      * 
      * @param body Truck object that needs to be updated
+     * @param truckId ID of truck to return
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTruck(body: Truck, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTruck(body: Truck, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTruck(body: Truck, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTruck(body: Truck, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateTruck(body: Truck, truckId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateTruck(body: Truck, truckId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateTruck(body: Truck, truckId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateTruck(body: Truck, truckId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling updateTruck.');
+        }
+
+        if (truckId === null || truckId === undefined) {
+            throw new Error('Required parameter truckId was null or undefined when calling updateTruck.');
         }
 
         let headers = this.defaultHeaders;
@@ -257,7 +262,7 @@ export class TruckService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/trucks`,
+        return this.httpClient.request<any>('put',`${this.basePath}/trucks/${encodeURIComponent(String(truckId))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

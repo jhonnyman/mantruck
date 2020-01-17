@@ -188,7 +188,7 @@ public class TruckapiApplicationITTests {
 
 		MvcResult getResult = mockMvc.perform(
 				MockMvcRequestBuilders
-				.put("/trucks")
+				.put("/trucks/{id}", id.toString())
 				.accept(MediaType.APPLICATION_JSON)
 				.content(jsonTruck)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -206,12 +206,10 @@ public class TruckapiApplicationITTests {
 
 		ResultActions getResult = mockMvc.perform(
 				MockMvcRequestBuilders
-				.put("/trucks")
+				.put("/trucks/{id}", "1111")
 				.accept(MediaType.APPLICATION_JSON)
 				.content(jsonTruck)
 				.contentType(MediaType.APPLICATION_JSON)
 				).andExpect(status().is4xxClientError());
-//		MockHttpServletResponse response = getResult.getResponse();
-//		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 	}
 }
