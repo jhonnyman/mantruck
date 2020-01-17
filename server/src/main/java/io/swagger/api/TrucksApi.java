@@ -78,10 +78,11 @@ public interface TrucksApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Truck not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    @RequestMapping(value = "/trucks",
+    @RequestMapping(value = "/trucks/{truckId}",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
     ResponseEntity<Void> updateTruck(@ApiParam(value = "Truck object that needs to be updated" ,required=true )  @Valid @RequestBody Truck body
+,@ApiParam(value = "ID of truck to return",required=true) @PathVariable("truckId") Long truckId
 );
 
     @CrossOrigin(origins = "*")

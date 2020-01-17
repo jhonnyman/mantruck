@@ -42,35 +42,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Truck'
-    put:
-      tags:
-      - truck
-      summary: Update an existing truck
-      operationId: updateTruck
-      requestBody:
-        description: Truck object that needs to be updated
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Truck'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Truck'
-        required: true
-      responses:
-        200:
-          description: Truck updated successfully
-          content: {}
-        400:
-          description: Invalid ID supplied
-          content: {}
-        404:
-          description: Truck not found
-          content: {}
-        405:
-          description: Validation exception
-          content: {}
-      x-codegen-request-body-name: body
     post:
       tags:
       - truck
@@ -90,7 +61,7 @@ paths:
         201:
           description: Truck added successfully
           content: {}
-        405:
+        400:
           description: Invalid input
           content: {}
       x-codegen-request-body-name: body
@@ -120,11 +91,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/Truck'
         400:
+          description: Invalid input
+          content: {}
+        404:
+          description: Truck not found
+          content: {}
+    put:
+      tags:
+      - truck
+      summary: Update an existing truck
+      operationId: updateTruck
+      parameters:
+      - name: truckId
+        in: path
+        description: ID of truck to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Truck object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Truck'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Truck'
+        required: true
+      responses:
+        200:
+          description: Truck updated successfully
+          content: {}
+        400:
           description: Invalid ID supplied
           content: {}
         404:
           description: Truck not found
           content: {}
+        405:
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: body
     post:
       tags:
       - truck
@@ -150,9 +158,6 @@ paths:
           description: Truck updated successfully
           content: {}
         400:
-          description: Invalid ID supplied
-          content: {}
-        405:
           description: Invalid input
           content: {}
       x-codegen-request-body-name: body
@@ -208,7 +213,7 @@ components:
         segments:
           type: array
           xml:
-            name: segment
+            name: segments
             wrapped: true
           items:
             type: string
@@ -225,7 +230,7 @@ components:
         colors:
           type: array
           xml:
-            name: color
+            name: colors
             wrapped: true
           items:
             type: string

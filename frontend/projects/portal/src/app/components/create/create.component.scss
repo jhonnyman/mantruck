@@ -1,6 +1,5 @@
 
 .create-form{
-    min-width: 150px;
     width: 100%;
 }
 
@@ -9,12 +8,13 @@
 }
 
 .container{
-    text-align: center;
+    width: 100%;
 }
 
 .mat-card{
     display: inline-block;
-    width: 50%;
+    max-width: 459px;
+    width: 100%;
 }
 
 h3{

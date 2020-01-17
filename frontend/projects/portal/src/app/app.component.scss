@@ -11,7 +11,22 @@ nav img{
     vertical-align: bottom;
 }
 
-main {
+nav div{
     width: 918px;
     margin: auto;
+    
 }
+
+main {
+    width: 918px;
+    // max-height: 90%;
+    margin: auto;
+    // overflow: scroll;
+}
+
+footer {
+    padding-top: 1em;
+    color: #eee;
+    width: 918px;
+    margin: auto;
+  }

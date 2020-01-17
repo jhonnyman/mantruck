@@ -2,6 +2,7 @@ package io.swagger.bl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,6 @@ public class TrucksApiBl {
 	public List<Truck> listTrucks() throws NotFoundException{
 		List<Truck> trucks = new ArrayList<>();
 		Iterable<TruckEntity> result = truckRepository.findAll();
-//		if(result == null) {
-//			throw new NotFoundException(404, "No trucks available.");
-//		}
 		for(TruckEntity tuckEntity : result) {
 			trucks.add(new Truck(tuckEntity));
 		}
@@ -38,14 +36,15 @@ public class TrucksApiBl {
 	}
 	
 	public Truck getTruck(Long truckId) throws NotFoundException {
-		TruckEntity truckEntity = truckRepository.findOne(truckId);
-		if(truckEntity == null)
+		Optional<TruckEntity> truckEntity = truckRepository.findById(truckId);
+		if(!truckEntity.isPresent())
 			throw new NotFoundException(404, "The truckId " + truckId + " does not exist.");
-		return new Truck(truckEntity);
+		return new Truck(truckEntity.get());
 	}
 	
 	public void updateTruck(Long truckId, Truck truck) throws NotFoundException {
 		validateTruckExists(truckId);
+		truck.setId(truckId);
 		truckRepository.save(new TruckEntity(truck));
 	}
 	
@@ -56,11 +55,12 @@ public class TrucksApiBl {
 	
 	public void deleteTruck(Long truckId) throws NotFoundException {
 		validateTruckExists(truckId);
-		truckRepository.delete(truckId);
+		truckRepository.deleteById(truckId);
 	}
 	
 	public void validateTruckExists(Long truckId) throws NotFoundException {
-		if(truckRepository.findOne(truckId) == null) {
+		Optional<TruckEntity> truckEntity = truckRepository.findById(truckId);
+		if(!truckEntity.isPresent()) {
 			throw new NotFoundException(404, "The truckId " + truckId + " does not exist.");
 		}
 	}
