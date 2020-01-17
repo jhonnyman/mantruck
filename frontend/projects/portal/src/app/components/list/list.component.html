@@ -4,6 +4,7 @@
       <br/>
       <h3>TAKE OUR MODELS DOWN THE ROAD</h3>
     </header>
+    <button mat-raised-button color="primary"  class="new-truck" (click)="createTruck()"><mat-icon>add_circle_outline</mat-icon> New Truck</button>
     <div class="list">
         <div class="items">
             <article *ngFor="let item of datasource;">
@@ -26,12 +27,12 @@
                         </mat-list>
                     </mat-card-content>
                     <mat-card-actions>
-                        <button (click)="updateTruck(item.id)">Edit Truck</button>
+                        <button mat-raised-button color="basic" (click)="updateTruck(item.id)"><mat-icon>create</mat-icon> Edit Truck</button>
+                        <button mat-raised-button color="warn" (click)="deleteTruck(item.id)"><mat-icon>delete_sweep</mat-icon> Delete Truck</button>
                     </mat-card-actions>
                 </mat-card>
             </article>
         </div>
     </div>
-  </section>
-  <button class="new-truck primary" (click)="createTruck()">New Truck</button>
+</section>
   

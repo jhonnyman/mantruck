@@ -1,6 +1,7 @@
 package io.swagger;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -202,14 +204,14 @@ public class TruckapiApplicationITTests {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonTruck = mapper.writeValueAsString(updatedTruck);
 
-		MvcResult getResult = mockMvc.perform(
+		ResultActions getResult = mockMvc.perform(
 				MockMvcRequestBuilders
 				.put("/trucks")
 				.accept(MediaType.APPLICATION_JSON)
 				.content(jsonTruck)
 				.contentType(MediaType.APPLICATION_JSON)
-				).andReturn();
-		MockHttpServletResponse response = getResult.getResponse();
-		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+				).andExpect(status().is4xxClientError());
+//		MockHttpServletResponse response = getResult.getResponse();
+//		assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
 	}
 }

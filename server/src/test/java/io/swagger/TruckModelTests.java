@@ -86,8 +86,8 @@ public class TruckModelTests {
 	
 	@Test
 	public void validateTruckUtilsTest() throws Exception {
-		assert(truckMock.toString().length() > 0);
-		assert(truckMock.hashCode() < 0);
+		Truck truck2 = new Truck(truckId,truckName,engineHP, engineVolume, fuel, segments,colors);
+		assertEquals(truckMock.hashCode(), truck2.hashCode());
 	}
 	
 	@Test
@@ -113,8 +113,8 @@ public class TruckModelTests {
 	
 	@Test
 	public void validateTruckEntityUtilsTest() throws Exception {
-		assert(truckEntityMock.toString().length() > 0);
-		assert(truckEntityMock.hashCode() > 0);
+		TruckEntity truck2 = new TruckEntity(truckMock);
+		assertEquals(truckEntityMock.hashCode(), truck2.hashCode());
 	}
 
 }
